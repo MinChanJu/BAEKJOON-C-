@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+import pandas as pd # type: ignore
 
 numbers_list = [
     13, 7, 12, 10, 11, 8, 4, 7, 6, 8, 7, 6, 11, 8, 9, 11, 0, 1, 5, 5, 7, 8, 
@@ -14,7 +14,10 @@ def count_files_in_directories(base_dir='.'):
     
     # 현재 디렉토리의 서브 디렉토리들을 가져옴
     for root, dirs, files in os.walk(base_dir):
-        for index, dir_name in enumerate(dirs):
+        step_dirs = [d for d in dirs if d.startswith("step")]
+        step_dirs.sort()
+        for index, dir_name in enumerate(step_dirs):
+            print(index, dir_name)
             dir_path = os.path.join(root, dir_name)
             file_count = len([f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))])
             file_count //= 2
