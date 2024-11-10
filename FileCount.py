@@ -1,5 +1,4 @@
 import os
-import pandas as pd # type: ignore
 
 numbers_list = [
     13, 7, 12, 10, 11, 8, 4, 7, 6, 8, 7, 6, 11, 8, 9, 11, 0, 1, 5, 5, 7, 8, 
@@ -7,30 +6,18 @@ numbers_list = [
     10, 5, 6, 8, 4, 11, 5, 5, 11, 7, 8
 ]
 
+def count_files_in_step_dirs():
+    with open("count.txt", "w") as f:
+        total_count = 0
+        for item in sorted(os.listdir('.')):
+            if not(os.path.isdir(item) and item.startswith("step")): continue
+            num = int(item.split(" ")[1])
+            if (num == 17 or num == 18):
+                f.write("\n")
+                continue
+            file_count = len([file for file in os.listdir(item) if os.path.isfile(os.path.join(item, file)) and file.endswith(".c")])
+            f.write(f"{item} : {file_count} / {numbers_list[num-1]}\n")
+            total_count += file_count
+        f.write(f"\n총 파일 수: {total_count}\n")
 
-def count_files_in_directories(base_dir='.'):
-    # 결과를 저장할 리스트
-    data = []
-    
-    # 현재 디렉토리의 서브 디렉토리들을 가져옴
-    for root, dirs, files in os.walk(base_dir):
-        step_dirs = [d for d in dirs if d.startswith("step")]
-        step_dirs.sort()
-        for index, dir_name in enumerate(step_dirs):
-            print(index, dir_name)
-            dir_path = os.path.join(root, dir_name)
-            file_count = len([f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))])
-            file_count //= 2
-            # 디렉토리와 파일 개수를 리스트에 추가
-            data.append({'Directory': dir_name, 'File Count': file_count, 'Total Number': numbers_list[index], 'Not Solve': numbers_list[index]-file_count})
-    
-    # 데이터프레임으로 변환
-    df = pd.DataFrame(data)
-    
-    # 엑셀 파일로 저장
-    output_file = 'file_counts.xlsx'
-    df.to_excel(output_file, index=False)
-    print(f"Data saved to {output_file}")
-
-# 실행
-count_files_in_directories()
+count_files_in_step_dirs()
