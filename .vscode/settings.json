@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "*.html": "html",
+        "*.js": "javascript",
+        "*.cs": "csharp",
+        "stdio.h": "c",
+        "_stdio.h": "c",
+        "__node_handle": "c",
+        "bitset": "c",
+        "unordered_map": "c",
+        "array": "c"
+    }
+}
